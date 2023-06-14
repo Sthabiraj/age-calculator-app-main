@@ -1,0 +1,160 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,400;1,800&display=swap");
+:root {
+  --purple: hsl(259, 100%, 65%);
+  --light-red: hsl(0, 100%, 67%);
+  --white: hsl(0, 0%, 100%);
+  --off-white: hsl(0, 0%, 94%);
+  --light-grey: hsl(0, 0%, 86%);
+  --smokey-grey: hsl(0, 1%, 44%);
+  --off-black: hsl(0, 0%, 8%);
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-family: "Poppins", sans-serif;
+  font-size: 32px;
+}
+body {
+  background-color: var(--off-white);
+  padding-top: 2rem;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+}
+.container {
+  background-color: var(--white);
+  padding: 1.2rem 0.6rem;
+  padding-bottom: 1rem;
+  border-radius: 20px 20px 80px 20px;
+  margin-bottom: 20px;
+}
+.container .date-section {
+  display: flex;
+  gap: 20px;
+}
+.container .date-box {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-bottom: 1.6rem;
+}
+.container .date-box label {
+  font-size: 0.31rem;
+  text-transform: uppercase;
+  font-family: 700;
+  color: var(--smokey-grey);
+  letter-spacing: 2px;
+  margin-bottom: 3px;
+}
+.container .date-box p {
+  font-size: 0.31rem;
+  font-style: italic;
+  font-family: 700;
+  color: var(--light-red);
+  margin-top: 5px;
+  letter-spacing: 0.3px;
+}
+label.error {
+  color: var(--light-red) !important;
+}
+input[type="number"].error {
+  border-color: var(--light-red) !important;
+}
+.container .date-box input[type="number"] {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: 1.5px solid var(--light-grey);
+  color: var(--off-black);
+  font-weight: 800;
+  font-size: 15px;
+}
+input[type="number"]:focus {
+  outline: 1px solid var(--purple);
+}
+/* Hide the arrow buttons for number input */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.container .btn-section {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.container .btn-section hr {
+  border-top: 1px solid var(--light-grey);
+}
+.btn-section button {
+  background-color: var(--purple);
+  border: none;
+  border-radius: 50%;
+  padding: 14px 16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: 0.3s ease background-color;
+}
+button:hover {
+  background-color: var(--off-black);
+}
+.btn-section button img {
+  width: 0.6rem;
+  height: auto;
+}
+.container .age-section h1 {
+  letter-spacing: -1px;
+  line-height: 1.13;
+  font-style: italic;
+  font-size: 1.4rem;
+}
+.container .age-section h1 span {
+  color: var(--purple);
+}
+
+@media screen and (min-width: 600px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    padding: 0;
+  }
+  .container {
+    padding: 1.2rem;
+    width: 100%;
+    max-width: 18.5rem;
+    border-radius: 20px 20px 150px 20px;
+  }
+  .container .date-section {
+    gap: 25px;
+  }
+  .container .date-box {
+    margin-bottom: 1rem;
+    max-width: 110px;
+  }
+  .container .date-box input[type="number"] {
+    font-size: 20px;
+    padding-left: 18px;
+  }
+  .btn-section button img {
+    width: 1.1rem;
+  }
+  .btn-section button {
+    top: 50%;
+    left: 94%;
+  }
+  .container .btn-section {
+    margin-bottom: 1rem;
+  }
+  .container .age-section h1 {
+    font-size: 2.3rem;
+    line-height: 1.1;
+  }
+}

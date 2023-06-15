@@ -1,110 +1,97 @@
-// Selecting id
-let ageDay = document.getElementById("current-day");
-let ageMonth = document.getElementById("current-month");
-let ageYear = document.getElementById("current-year");
+// Label date
+let dateLabel = [
+  document.getElementById("day-label"),
+  document.getElementById("month-label"),
+  document.getElementById("year-label"),
+];
 
-let dayLabel = document.getElementById("day-label");
-let monthLabel = document.getElementById("month-label");
-let yearLabel = document.getElementById("year-label");
+// Input date
+let dateBirth = [
+  document.getElementById("birth-day"),
+  document.getElementById("birth-month"),
+  document.getElementById("birth-year"),
+];
 
-let msgDay = document.getElementById("msg-day");
-let msgMonth = document.getElementById("msg-month");
-let msgYear = document.getElementById("msg-year");
+// Error message
+let errorMsg = [
+  document.getElementById("msg-day"),
+  document.getElementById("msg-month"),
+  document.getElementById("msg-year"),
+];
 
-function calculateAge() {
-  // Taking birth date from user
-  let birthDay = document.getElementById("birth-day");
-  let birthMonth = document.getElementById("birth-month");
-  let birthYear = document.getElementById("birth-year");
+// Age date
+let currentAge = [
+  document.getElementById("current-day"),
+  document.getElementById("current-month"),
+  document.getElementById("current-year"),
+];
 
-  // Calculating current date
-  let currentDate = new Date();
-  let currentDay = currentDate.getDate();
-  let currentMonth = currentDate.getMonth() + 1;
-  let currentYear = currentDate.getFullYear();
+// Button
+let btn = document.getElementById("btn");
 
-  // Checking empty date
-  if (birthDay.value == "" || birthMonth.value == "" || birthYear.value == "") {
-    if (birthDay.value == "") {
-      dayLabel.classList.add("error");
-      birthDay.classList.add("error");
-      msgDay.classList.add("error");
-      msgDay.innerHTML = "This field is required";
-    }
-    if (birthMonth.value == "") {
-      monthLabel.classList.add("error");
-      birthMonth.classList.add("error");
-      msgMonth.classList.add("error");
-      msgMonth.innerHTML = "This field is required";
-    }
-    if (birthYear.value == "") {
-      yearLabel.classList.add("error");
-      birthYear.classList.add("error");
-      msgYear.classList.add("error");
-      msgYear.innerHTML = "This field is required";
-    }
-  } else {
-    // Checking birth date
-    if (
-      birthDay.value <= 31 &&
-      birthDay.value > 0 &&
-      birthMonth.value <= 12 &&
-      birthMonth.value > 0 &&
-      birthYear.value <= currentYear &&
-      birthYear.value > 0
-    ) {
-      // Calculating age
-      let currentAgeDay = Math.abs(currentDay - birthDay.value);
-      let currentAgeMonth = Math.abs(currentMonth - birthMonth.value);
-      let currentAgeYear = Math.abs(currentYear - birthYear.value);
+// Get value input to be global
+let dateBirthValue;
+let getDateBirthValue = () => {
+  dateBirthValue = [
+    parseInt(dateBirth[0].value),
+    parseInt(dateBirth[1].value),
+    parseInt(dateBirth[2].value),
+  ];
+};
 
-      // Displaying age
-      ageDay.innerHTML = currentAgeDay;
-      ageMonth.innerHTML = currentAgeMonth;
-      ageYear.innerHTML = currentAgeYear;
+// Calculating current date
+let currentDate = () => {
+  let today = new Date();
+  let todayDate = [today.getDate(), today.getMonth() + 1, today.getFullYear()];
+  return todayDate;
+};
 
-      // Removing error msg
-      dayLabel.classList.remove("error");
-      birthDay.classList.remove("error");
-      msgDay.classList.remove("error");
-      monthLabel.classList.remove("error");
-      birthMonth.classList.remove("error");
-      msgMonth.classList.remove("error");
-      yearLabel.classList.remove("error");
-      birthYear.classList.remove("error");
-      msgYear.classList.remove("error");
-    } else {
-      // Set the value to null
-      ageDay.innerHTML = "--";
-      ageMonth.innerHTML = "--";
-      ageYear.innerHTML = "--";
+// Calculating Age
+let calculateAge = () => {
+  // For current date
+  let today = currentDate();
+  // Calculation
+  let age = [];
+  for (let i = 0; i < today.length; i++) {
+    age.push(Math.abs(dateBirthValue[i] - today[i]));
+  }
+  return age;
+};
 
+// Add error class function
+let addError = (i) => {
+  dateLabel[i].classList.add("error");
+  dateBirth[i].classList.add("error");
+  errorMsg[i].classList.add("error");
+};
+
+// Remove error class function
+let removeError = (i) => {
+  dateLabel[i].classList.remove("error");
+  dateBirth[i].classList.remove("error");
+  errorMsg[i].classList.remove("error");
+};
+
+// Main Function
+btn.addEventListener("click", () => {
+  // For input date
+  getDateBirthValue();
+
+  // For current age
+  let age = calculateAge();
+
+  // Iteration
+  for (let i = 0; i < dateBirthValue.length; i++) {
+    if (isNaN(dateBirthValue[i]) || dateBirthValue[i] === "") {
       // Adding error class
-      dayLabel.classList.add("error");
-      birthDay.classList.add("error");
-      monthLabel.classList.add("error");
-      birthMonth.classList.add("error");
-      yearLabel.classList.add("error");
-      birthYear.classList.add("error");
-      if (!(birthDay.value <= 31 && birthDay.value > 0)) {
-        msgDay.classList.add("error");
-        msgDay.innerHTML = "Must be a valid date";
-      }
-      if (!(birthMonth.value <= 12 && birthMonth.value > 0)) {
-        msgMonth.classList.add("error");
-        msgMonth.innerHTML = "Must be a valid month";
-      }
-      if (!(birthYear.value <= currentYear && birthYear.value > 0)) {
-        msgYear.classList.add("error");
-        msgYear.innerHTML = "Must be in the past";
-      }
+      addError(i);
+      // Displaying error message
+      errorMsg[i].innerHTML = "This field is required";
+    } else {
+      // Removing error class
+      removeError(i);
+      // Displaying age
+      currentAge[i].innerHTML = age[i];
     }
   }
-}
-
-let btn = document.getElementById("btn");
-btn.addEventListener("click", calculateAge);
-
-btn.addEventListener("dblclick", function () {
-  location.reload();
 });

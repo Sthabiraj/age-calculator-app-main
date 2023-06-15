@@ -33,12 +33,12 @@ body {
 .container .date-section {
   display: flex;
   gap: 20px;
+  margin-bottom: 1.6rem;
 }
 .container .date-box {
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-bottom: 1.6rem;
 }
 .container .date-box label {
   font-size: 0.31rem;
@@ -48,19 +48,23 @@ body {
   letter-spacing: 2px;
   margin-bottom: 3px;
 }
-.container .date-box p {
-  font-size: 0.31rem;
-  font-style: italic;
-  font-family: 700;
-  color: var(--light-red);
-  margin-top: 5px;
-  letter-spacing: 0.3px;
+.container .date-box .msg {
+  display: none;
 }
 label.error {
   color: var(--light-red) !important;
 }
 input[type="number"].error {
   border-color: var(--light-red) !important;
+}
+.msg.error {
+  display: block !important;
+  font-size: 0.31rem;
+  font-style: italic;
+  font-family: 700;
+  color: var(--light-red);
+  margin-top: 5px;
+  letter-spacing: 0.3px;
 }
 .container .date-box input[type="number"] {
   width: 100%;
@@ -134,10 +138,10 @@ button:hover {
   }
   .container .date-section {
     gap: 25px;
+    margin-bottom: 1rem;
   }
   .container .date-box {
-    margin-bottom: 1rem;
-    max-width: 110px;
+    max-width: 120px;
   }
   .container .date-box input[type="number"] {
     font-size: 20px;

@@ -39,25 +39,6 @@ let getDateBirthValue = () => {
   ];
 };
 
-// Calculating current date
-let currentDate = () => {
-  let today = new Date();
-  let todayDate = [today.getDate(), today.getMonth() + 1, today.getFullYear()];
-  return todayDate;
-};
-
-// Calculating Age
-let calculateAge = () => {
-  // For current date
-  let today = currentDate();
-  // Calculation
-  let age = [];
-  for (let i = 0; i < today.length; i++) {
-    age.push(Math.abs(dateBirthValue[i] - today[i]));
-  }
-  return age;
-};
-
 // Add error class function
 let addError = (i) => {
   dateLabel[i].classList.add("error");
@@ -72,10 +53,100 @@ let removeError = (i) => {
   errorMsg[i].classList.remove("error");
 };
 
+// Validate day
+let isDayValid = (day, month, year) => {
+  if (day < 1 || day > 31) {
+    addError(0);
+    errorMsg[0].innerHTML = "Must be a valid day";
+    return false;
+  }
+
+  // Check day with respect to month
+  if (month === 2) {
+    // February
+    let lastDayOfMonth =
+      (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0 ? 29 : 28;
+    if (day > lastDayOfMonth) {
+      addError(0);
+      errorMsg[0].innerHTML = "Must be a valid day";
+      return false;
+    }
+  }
+
+  return true;
+};
+
+// Validate month
+let isMonthValid = (month) => {
+  if (month < 1 || month > 12) {
+    addError(1);
+    errorMsg[1].innerHTML = "Must be a valid month";
+    return false;
+  }
+  return true;
+};
+
+// Validate year
+let isYearValid = (year, todayYear) => {
+  if (year > todayYear) {
+    addError(2);
+    errorMsg[2].innerHTML = "Must be in the past";
+    return false;
+  }
+  return true;
+};
+
+// Validate date
+let isInvalidDate = () => {
+  // Todays date
+  let today = currentDate();
+  let todayYear = today[2];
+  // Birth date
+  getDateBirthValue();
+
+  let day = dateBirthValue[0];
+  let month = dateBirthValue[1];
+  let year = dateBirthValue[2];
+
+  let isDayValidResult = isDayValid(day, month, year);
+  let isMonthValidResult = isMonthValid(month);
+  let isYearValidResult = isYearValid(year, todayYear);
+
+  return !(isDayValidResult && isMonthValidResult && isYearValidResult);
+};
+
+// Calculating current date
+let currentDate = () => {
+  let today = new Date();
+  let todayDate = [today.getDate(), today.getMonth() + 1, today.getFullYear()];
+  return todayDate;
+};
+
+// Calculating Age
+let calculateAge = () => {
+  // For current date
+  let today = currentDate();
+  let age = [];
+  for (let i = 0; i < dateBirthValue.length; i++) {
+    age.push(Math.abs(today[i] - dateBirthValue[i]));
+  }
+  return age;
+};
+
+// Clear error messages
+let clearErrorMessages = () => {
+  for (let i = 0; i < errorMsg.length; i++) {
+    errorMsg[i].innerHTML = "";
+  }
+};
+
 // Main Function
 btn.addEventListener("click", () => {
   // For input date
   getDateBirthValue();
+
+  // Clear previous error messages
+  clearErrorMessages();
 
   // For current age
   let age = calculateAge();
@@ -88,10 +159,14 @@ btn.addEventListener("click", () => {
       // Displaying error message
       errorMsg[i].innerHTML = "This field is required";
     } else {
-      // Removing error class
-      removeError(i);
-      // Displaying age
-      currentAge[i].innerHTML = age[i];
+      if (!isInvalidDate()) {
+        // Removing error class
+        removeError(i);
+        // Displaying age
+        currentAge[i].innerHTML = age[i];
+      } else {
+        addError(i);
+      }
     }
   }
 });

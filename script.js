@@ -62,6 +62,12 @@ let isDayValid = (day, month, year) => {
   }
 
   // Check day with respect to month
+  if ((month === 4 || month === 6 || month === 9 || month === 11) && day > 30) {
+    addError(0);
+    errorMsg[0].innerHTML = "Must be a valid day";
+    return false;
+  }
+
   if (month === 2) {
     // February
     let lastDayOfMonth =
